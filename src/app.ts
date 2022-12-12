@@ -5,7 +5,8 @@ import favicon from 'serve-favicon';
 import path from 'path';
 import compression from 'compression';
 import { PrismaClient } from '@prisma/client';
-
+import UserRoute from './Routes/UserRoute'
+import errorHandler from './error/errorHandler';
 
 const app = express();
 const PORT = process.env.SERVER_PORT || 8080;
@@ -34,28 +35,11 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Yoga Form API');
 });
 
-app.use((error: any, res: Response, next: NextFunction) => {
-    try {
-        res.status(404).send('Resource not found');
-    } catch (error) {
-        next(error);
-    }
-});
+// user route
+app.use('/user', UserRoute);
 
-app.use((error: any, res: Response, next: NextFunction) => {
-    try {
-        const status = error.status || 500;
-        const message =
-            error.message ||
-            'There was an error while processing your request, please try again';
-        return res.status(status).send({
-            status,
-            message,
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+// error handler
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`Application started on ${PORT}...`);
