@@ -31,7 +31,7 @@ app.use(cors());
 
 // routes
 app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!');
+    res.send('Yoga Form API');
 });
 
 app.use((error: any, res: Response, next: NextFunction) => {
