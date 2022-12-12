@@ -8,7 +8,6 @@ import compression from 'compression';
 const app = express();
 const PORT = process.env.SERVER_PORT || 8080;
 
-// create database pool
 
 // serve static files
 // app.use(favicon(path.join('../public', 'favicon.ico')));

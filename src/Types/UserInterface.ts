@@ -1,3 +1,6 @@
+import { Batch } from "./BatchInterface";
+import { Subscription } from "./SubscriptionInterface";
+
 export interface User {
     id  : number;
     firstname: string;
@@ -10,9 +13,9 @@ export interface User {
     phone: string;
     height: number;
     weight: number;
-    batch: any;
+    batch: Batch;
     batchId: number
-    subscription: any;
+    subscription: Subscription;
     subscriptionId: number;
     createdAt: Date;
     updatedAt: Date;
