@@ -34,12 +34,16 @@ export const getAllUser = async(req: Request, res: Response, next: NextFunction)
 export const updateUser = async(req: Request, res: Response, next: NextFunction) => {
     const id = Number(req.params.id)
     const updatedUserData = req.body;
-    const users = await prisma.user.update({
+    const user = await prisma.user.update({
         where: {
             id
         },
         data: updatedUserData,
     })
+    res.json({
+        message: 'User updated successfully',
+        user: user,
+    });
 }
 
 export const deleteUser = async(req: Request, res: Response, next: NextFunction) => {
