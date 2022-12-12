@@ -4,10 +4,13 @@ import cors from 'cors';
 import favicon from 'serve-favicon';
 import path from 'path';
 import compression from 'compression';
+import { PrismaClient } from '@prisma/client';
+
 
 const app = express();
 const PORT = process.env.SERVER_PORT || 8080;
 
+export const prisma = new PrismaClient();
 
 // serve static files
 // app.use(favicon(path.join('../public', 'favicon.ico')));
