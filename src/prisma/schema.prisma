@@ -32,23 +32,23 @@ model Subscription {
 }
 
 model User {
-  id         Int    @id @default(autoincrement())
-  firstname  String
-  middlename String
-  lastname   String
-  email      String @unique
-  age        Int
-  sex        String
-  address    String
-  phone      String
-  height     Int
-  weight     Int
-  batch   Batch @relation(fields: [batchId], references: [id])
-  batchId Int
+  id             Int          @id @default(autoincrement())
+  firstname      String
+  middlename     String
+  lastname       String
+  email          String       @unique
+  age            Int
+  sex            String
+  address        String
+  phone          String
+  height         Int
+  weight         Int
+  batch          Batch        @relation(fields: [batchId], references: [id])
+  batchId        Int
   subscription   Subscription @relation(fields: [subscriptionId], references: [id])
   subscriptionId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 
   @@index([email], name: "email")
 }
