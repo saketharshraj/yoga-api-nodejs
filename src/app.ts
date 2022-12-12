@@ -1,21 +1,19 @@
-import express from 'express';
 import helmet from 'helmet';
-import { Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import favicon from 'serve-favicon';
 import path from 'path';
 import compression from 'compression';
-
-import * as MySQLConnector from './utils/mysql.connector';
+import { PrismaClient } from '@prisma/client';
 
 const app = express();
 const PORT = process.env.SERVER_PORT || 8080;
 
 // create database pool
-MySQLConnector.init();
+export const prisma = new PrismaClient();
 
 // serve static files
-app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
+// app.use(favicon(path.join('../public', 'favicon.ico')));
 
 // compresses all the responses
 app.use(compression());
@@ -30,6 +28,11 @@ app.use(express.urlencoded({ extended: true }));
 // enable all CORS request
 app.use(cors());
 
+
+// routes
+app.get('/', (req: Request, res: Response) => {
+    res.send('Hello World!');
+});
 
 app.use((error: any, res: Response, next: NextFunction) => {
     try {

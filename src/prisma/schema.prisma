@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Batch {
+  id           Int      @id @default(autoincrement())
+  start_time   DateTime
+  end_time     DateTime
+  max_capacity Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  users        User[]
+}
+
+model Subscription {
+  id        Int      @id @default(autoincrement())
+  name      String
+  price     Int
+  expiresAt DateTime
+  isActive  Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
+}
+
+model User {
+  id         Int    @id @default(autoincrement())
+  firstname  String
+  middlename String
+  lastname   String
+  email      String @unique
+  age        Int
+  sex        String
+  address    String
+  phone      String
+  height     Int
+  weight     Int
+  batch   Batch @relation(fields: [batchId], references: [id])
+  batchId Int
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id])
+  subscriptionId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email], name: "email")
+}
