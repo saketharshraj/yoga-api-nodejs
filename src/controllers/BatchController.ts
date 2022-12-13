@@ -6,10 +6,19 @@ import ApiError from "../error/ApiError";
 export const createBatch = async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.body);
     const batchData: Batch = req.body;
-    const batch = await prisma.batch.create({
+    await prisma.batch.create({
         data: batchData
     })
-    res.json(batch);
+    .then((batchResponse) => {
+        res.status(201).json({
+            message: 'Batch created successfully',
+            batch: batchResponse,
+        });
+    })
+    .catch((err) => {
+        console.log('Error', err);
+        next(ApiError.internalServerError('Some error occured'));
+    });
 }
 
 export const getBatch = async (req: Request, res: Response, next: NextFunction) => {
