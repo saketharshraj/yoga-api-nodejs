@@ -6,6 +6,8 @@ import path from 'path';
 import compression from 'compression';
 import { PrismaClient } from '@prisma/client';
 import UserRoute from './Routes/UserRoute'
+import BatchRoute from './Routes/BatchRoute'
+import SubscriptionRoute from './Routes/SubscriptionRoute'
 import errorHandler from './error/errorHandler';
 
 const app = express();
@@ -38,11 +40,17 @@ app.get('/', (req: Request, res: Response) => {
 // user route
 app.use('/user', UserRoute);
 
+// batch route
+app.use('/batch', BatchRoute);
+
+// subscription route
+app.use('/subscription', SubscriptionRoute)
+
 // error handler
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-    console.log(`Application started on ${PORT}...`);
+    console.log(`Yoga form API started on ${PORT}...`);
 });
 
 export default app;

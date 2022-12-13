@@ -15,5 +15,8 @@ router.get('/:id', BatchController.getBatch);
 // patch batch
 router.patch('/:id', BatchController.updateBatch);
 
+// delete batch
+router.delete('/:id', BatchController.deleteBatch);
+
 export default router;
 

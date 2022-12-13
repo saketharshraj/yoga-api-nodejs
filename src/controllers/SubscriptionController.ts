@@ -20,7 +20,7 @@ export const getSubscription = async (req: Request, res: Response, next: NextFun
         }
     })
     if (!subscription) {
-        next(ApiError.badRequest(`No subscription found with id : ${id}`));
+        next(ApiError.notFound(`No subscription found with id : ${id}`));
         return;
     }
     res.json(subscription);

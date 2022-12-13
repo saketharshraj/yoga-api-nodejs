@@ -20,7 +20,7 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
         }
     })
     if (!user) {
-        next(ApiError.badRequest(`No user found with id : ${id}`));
+        next(ApiError.notFound(`No user found with id : ${id}`));
         return;
     }
     res.json(user);

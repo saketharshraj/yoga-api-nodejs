@@ -20,7 +20,7 @@ export const getBatch = async (req: Request, res: Response, next: NextFunction) 
         }
     })
     if (!batch) {
-        next(ApiError.badRequest(`No batch found with id : ${id}`));
+        next(ApiError.notFound(`No batch found with id : ${id}`));
         return;
     }
     res.json(batch);
@@ -53,6 +53,10 @@ export const deleteBatch = async(req: Request, res: Response, next: NextFunction
             id
         }
     })
+    if (!batch) {
+        next(ApiError.notFound(`No batch found with id : ${id}`));
+        return;
+    }
     res.json({
         message: 'Batch deleted successfully',
         batch: batch
