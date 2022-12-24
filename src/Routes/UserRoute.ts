@@ -5,7 +5,7 @@ import UserFormValidation from "../Validations/UserFormValidation";
 const router: Router = Router();
 
 // create user
-router.post('/', UserFormValidation, UserController.createUser);
+router.post('/', [UserFormValidation], UserController.createUser);
 
 // get all user
 router.get('/', UserController.getAllUser);

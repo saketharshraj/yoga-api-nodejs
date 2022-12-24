@@ -30,7 +30,7 @@ export const getUser = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const id = Number(req.params.id);
+    const id = String(req.params.id);
     const user = await prisma.user.findUnique({
         where: {
             id,
@@ -48,8 +48,19 @@ export const getAllUser = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const users = await prisma.user.findMany();
-    res.json(users);
+    await prisma.user
+        .findMany({
+            include: {
+                batch: true,
+            },
+        })
+        .then((users) => {
+            res.json(users);
+        })
+        .catch((err) => {
+            console.log('Error', err);
+            next(ApiError.internalServerError('Some error occured'));
+        });
 };
 
 export const updateUser = async (
@@ -57,18 +68,28 @@ export const updateUser = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const id = Number(req.params.id);
+    const id = String(req.params.id);
     const updatedUserData = req.body;
-    const user = await prisma.user.update({
-        where: {
-            id,
-        },
-        data: updatedUserData,
-    });
-    res.json({
-        message: 'User updated successfully',
-        user: user,
-    });
+    const user = await prisma.user
+        .update({
+            where: {
+                id,
+            },
+            data: updatedUserData,
+            include: {
+                batch: true,
+            },
+        })
+        .then((user) => {
+            res.json({
+                message: 'User updated successfully',
+                user: user,
+            });
+        })
+        .catch((err) => {
+            console.log('Error', err);
+            next(ApiError.internalServerError('Some error occured'));
+        });
 };
 
 export const deleteUser = async (
@@ -76,14 +97,21 @@ export const deleteUser = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const id = Number(req.params.id);
-    const user = await prisma.user.delete({
-        where: {
-            id,
-        },
-    });
-    res.json({
-        message: 'User deleted successfully',
-        user: user,
-    });
+    const id = String(req.params.id);
+    await prisma.user
+        .delete({
+            where: {
+                id,
+            },
+        })
+        .then((user) => {
+            res.json({
+                message: 'User deleted successfully',
+                user: user,
+            });
+        })
+        .catch((err) => {
+            console.log('Error', err);
+            next(ApiError.internalServerError('Some error occured'));
+        });
 };

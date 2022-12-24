@@ -11,44 +11,45 @@ datasource db {
 }
 
 model Batch {
-  id           Int      @id @default(autoincrement())
-  start_time   DateTime
-  end_time     DateTime
-  max_capacity Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  users        User[]
+  id              String   @id @default(uuid())
+  startTime       Int
+  endTime         Int
+  maxCapacity     Int      @default(0)
+  currentCapacity Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  users           User[]
 }
 
 model Subscription {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String
   price     Int
   expiresAt DateTime
   isActive  Boolean
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  users     User[]
+  users     User     @relation(fields: [userId], references: [id])
+  userId    String   @unique
 }
 
 model User {
-  id             Int          @id @default(autoincrement())
-  firstname      String
-  middlename     String?
-  lastname       String?
-  email          String       @unique
-  age            Int
-  sex            Gender
-  address        String?
-  phone          String?
-  height         Int?
-  weight         Int?
-  batch          Batch?        @relation(fields: [batchId], references: [id])
-  batchId        Int?
-  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
-  subscriptionId Int?
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  id           String        @id @default(uuid())
+  firstname    String
+  middlename   String?
+  lastname     String?
+  email        String        @unique
+  age          Int
+  sex          Gender
+  address      String?
+  phone        String?
+  height       Int?
+  weight       Int?
+  batch        Batch?        @relation(fields: [batchId], references: [id])
+  batchId      String?
+  subscription Subscription?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 
   @@index([email], name: "email")
 }

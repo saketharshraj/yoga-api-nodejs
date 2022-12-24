@@ -6,6 +6,7 @@ import ApiError from "../error/ApiError";
 export const createBatch = async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.body);
     const batchData: Batch = req.body;
+
     await prisma.batch.create({
         data: batchData
     })
@@ -22,7 +23,7 @@ export const createBatch = async (req: Request, res: Response, next: NextFunctio
 }
 
 export const getBatch = async (req: Request, res: Response, next: NextFunction) => {
-    const id = Number(req.params.id);
+    const id = String(req.params.id);
     const batch = await prisma.batch.findUnique({
         where: {
             id
@@ -41,7 +42,7 @@ export const getAllBatch = async(req: Request, res: Response, next: NextFunction
 }
 
 export const updateBatch = async(req: Request, res: Response, next: NextFunction) => {
-    const id = Number(req.params.id)
+    const id = String(req.params.id)
     const updatedBatchData = req.body;
     const batch = await prisma.batch.update({
         where: {
@@ -56,7 +57,7 @@ export const updateBatch = async(req: Request, res: Response, next: NextFunction
 }
 
 export const deleteBatch = async(req: Request, res: Response, next: NextFunction) => {
-    const id = Number(req.params.id)
+    const id = String(req.params.id)
     const batch = await prisma.batch.delete({
         where: {
             id

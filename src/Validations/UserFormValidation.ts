@@ -12,6 +12,7 @@ const UserFormValidation = (req: Request, res: Response, next:NextFunction) => {
         next(ApiError.badRequest('Age limit is between 18 - 65'));
         return;
     }
+    next();
 }
 
 export default UserFormValidation;

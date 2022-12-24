@@ -31,7 +31,7 @@ export const getSubscription = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const id = Number(req.params.id);
+    const id = String(req.params.id);
     const subscription = await prisma.subscription.findUnique({
         where: {
             id,
@@ -58,18 +58,25 @@ export const updateSubscription = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const id = Number(req.params.id);
+    const id = String(req.params.id);
     const updatedSubscriptionData = req.body;
-    const subscription = await prisma.subscription.update({
-        where: {
-            id,
-        },
-        data: updatedSubscriptionData,
-    });
-    res.json({
-        message: 'Subscription updated successfully',
-        subscription: subscription,
-    });
+    const subscription = await prisma.subscription
+        .update({
+            where: {
+                id,
+            },
+            data: updatedSubscriptionData,
+        })
+        .then((subscriptionResponse) => {
+            res.status(201).json({
+                message: 'Subscription updated successfully',
+                subscription: subscriptionResponse,
+            });
+        })
+        .catch((err) => {
+            console.log('Error', err);
+            next(ApiError.internalServerError('Some error occured'));
+        });
 };
 
 export const deleteSubscription = async (
@@ -77,14 +84,21 @@ export const deleteSubscription = async (
     res: Response,
     next: NextFunction,
 ) => {
-    const id = Number(req.params.id);
-    const subscription = await prisma.subscription.delete({
-        where: {
-            id,
-        },
-    });
-    res.json({
-        message: 'Subscription deleted successfully',
-        subscription: subscription,
-    });
+    const id = String(req.params.id);
+    await prisma.subscription
+        .delete({
+            where: {
+                id,
+            },
+        })
+        .then((subscriptionResponse) => {
+            res.status(201).json({
+                message: 'Subscription deleted successfully',
+                subscription: subscriptionResponse,
+            });
+        })
+        .catch((err) => {
+            console.log('Error', err);
+            next(ApiError.internalServerError('Some error occured'));
+        });
 };
