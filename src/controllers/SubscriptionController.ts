@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { prisma } from '../app';
 import { Subscription } from '@prisma/client';
 import ApiError from '../error/ApiError';
-import { json } from 'stream/consumers';
 
 export const createSubscription = async (
     req: Request,
