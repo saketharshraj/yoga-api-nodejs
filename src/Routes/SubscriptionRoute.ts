@@ -1,11 +1,13 @@
 import { Router } from "express";
+import AddBatchToUser from "../middlewares/subscription/CheckBatchAndPrice";
 import * as SubscriptionController from '../controllers/SubscriptionController';
 import SubscriptionValidation from "../Validations/SubscriptionValidation";
+import MakePayment from "../middlewares/subscription/MakePayment";
 
 const router: Router = Router();
 
 // create subscription
-router.post('/', SubscriptionValidation, SubscriptionController.createSubscription);
+router.post('/', [AddBatchToUser, MakePayment] , SubscriptionController.createSubscription);
 
 // get all subscription
 router.get('/', SubscriptionController.getAllSubscription);
