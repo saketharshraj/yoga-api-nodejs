@@ -15,6 +15,7 @@ model Batch {
   startTime       Int
   endTime         Int
   maxCapacity     Int      @default(0)
+  price           Int
   currentCapacity Int      @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
